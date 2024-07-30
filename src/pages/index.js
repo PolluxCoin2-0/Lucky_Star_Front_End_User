@@ -3,6 +3,9 @@ import OTP from "./Auth/OTP";
 import Wallet from "./Auth/Wallet";
 import Home from "./Home";
 import Winner from "./Winner";
+import Faqs from "./Faqs";
+import Balance from "./Balance";
+import UserData from "./UserData";
 
 export {
     Signup,
@@ -10,4 +13,7 @@ export {
     Wallet,
     Home,
     Winner,
+    Faqs,
+    Balance,
+    UserData
 }

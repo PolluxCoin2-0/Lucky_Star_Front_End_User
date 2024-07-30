@@ -39,3 +39,9 @@ ul.country-list:hover {
     background-color: white !important;
     color: black !important; 
 }
+
+.bgimage{
+    background-image: url("./assets/BGImage.png");
+    background-position: center;
+    background-size: contain;
+}

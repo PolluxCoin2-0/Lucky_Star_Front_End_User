@@ -1,7 +1,14 @@
+import { Search, UserTable } from "../components";
+
 const Winner = () => {
   return (
-    <div>Winner</div>
-  )
-}
+    <div className="bgimage bg-black min-h-screen px-4 lg:px-24 text-white">
+      <Search />
 
-export default Winner
+      <p className="text-2xl font-semibold">Today's Winners</p>
+   <UserTable/>
+    </div>
+  );
+};
+
+export default Winner;
