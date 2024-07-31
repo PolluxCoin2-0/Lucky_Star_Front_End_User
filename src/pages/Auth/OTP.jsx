@@ -2,9 +2,25 @@ import { RxCross2 } from "react-icons/rx";
 import Logo from "../../assets/logo_lucky.png";
 import OtpInput from "react-otp-input";
 import { useState } from "react";
+import { verifyOtp } from "../../utils/Axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const OTP = () => {
+  const navigate = useNavigate();
   const [otp, setOtp] = useState("");
+  const userEmail = sessionStorage.getItem("userEmail");
+
+  const handleVerifyOtp = async()=> {
+    const apiData = await verifyOtp(userEmail,otp);
+    if(apiData?.statusCode===200){
+      toast.success("OTP verified successfully")
+       navigate("/wallet");
+    }else{
+      return toast.error("Invalid OTP")
+    }
+  }
+
   return (
     <div className="bg-gradient-to-r from-[#58A0A6] to-[#C89D42] text-white flex justify-center items-center min-h-screen">
       <div className="bg-black px-8 pt-4 pb-12 rounded-3xl w-[90%]  md:w-[60%] lg:w-[50%] xl:w-[30%] 2xl:w-[30%]">
@@ -50,6 +66,7 @@ const OTP = () => {
         {/* Button */}
         <button
           type="button"
+          onClick={handleVerifyOtp}
           className="bg-gradient-to-r from-[#FF4B00] to-[#CFC800] py-3 px-4 w-full text-center font-bold rounded-lg text-white focus:outline-none mt-8"
         >
           Verify

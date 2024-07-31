@@ -2,6 +2,7 @@ import Search from "../components/Search";
 import UserTable from "../components/UserTable";
 
 const Balance = () => {
+  const balanceUSDX = sessionStorage.getItem("balanceUSDX");
   return (
     <div className="bgimage px-24 bg-black min-h-screen text-white pb-12">
       <Search />
@@ -11,22 +12,20 @@ const Balance = () => {
           <label className="text-[#858484] font-semibold text-lg mb-2">
             Total Balance
           </label>
-          <input
-            type="text"
-            className="bg-[#F3F3F3] border-2 border-[#DBDBDB] focus:outline-gray-400 rounded-md py-2 px-4 text-black w-64"
+          <span
+            className="bg-[#F3F3F3] border-2 border-[#DBDBDB] focus:outline-gray-400 rounded-md py-2 px-4 w-64 font-semibold text-gray-500"
             placeholder="1020 USDX"
-          />
+          >{balanceUSDX}</span>
         </div>
 
         <div className="flex flex-col">
           <label className="text-[#858484] font-semibold text-lg mb-2">
             Winning Balance
           </label>
-          <input
-            type="text"
-            className="bg-[#F3F3F3] border-2 border-[#DBDBDB] focus:outline-gray-400 rounded-md py-2 px-4 text-black w-64"
+          <span
+            className="bg-[#F3F3F3] border-2 border-[#DBDBDB] focus:outline-gray-400 rounded-md py-2 px-4 w-64 font-semibold text-gray-500"
             placeholder="1020 USDX"
-          />
+          >{balanceUSDX}</span>
         </div>
       </div>
 

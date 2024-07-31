@@ -43,7 +43,7 @@ const UserData = () => {
             </div>
 
             <div className="mb-4">
-              <p className="font-semibold text-black text-xl pb-2">Country/State</p>
+              <p className="font-semibold text-black text-xl pb-2">State</p>
               <p className="text-[#a5a5a5] font-medium border-2 border-[#c2c2c2] px-6 py-2 rounded-lg">
                 {user.countryState}
               </p>
@@ -67,6 +67,13 @@ const UserData = () => {
               <p className="font-semibold text-black text-xl pb-2">Wallet Address</p>
               <p className="text-[#a5a5a5] font-medium border-2 border-[#c2c2c2] px-6 py-2 rounded-lg break-words">
                 {user.walletAddress}
+              </p>
+            </div>
+
+            <div className="col-span-1 sm:col-span-2 mb-4">
+              <p className="font-semibold text-black text-xl pb-2">Referral Code</p>
+              <p className="text-[#a5a5a5] font-medium border-2 border-[#c2c2c2] px-6 py-2 rounded-lg break-words">
+                {user.referral}
               </p>
             </div>
           </div>
