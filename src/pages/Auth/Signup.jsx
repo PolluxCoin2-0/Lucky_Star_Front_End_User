@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { RxCross2 } from "react-icons/rx";
 import Logo from "../../assets/logo_lucky.png";
 import { Link, useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
@@ -50,10 +49,7 @@ const Signup = () => {
   return (
     <div className="bg-gradient-to-r from-[#58A0A6] to-[#C89D42] text-white flex justify-center items-center min-h-screen">
       <div className="bg-black px-8 pt-4 pb-12 rounded-3xl w-[90%]  md:w-[60%] lg:w-[50%] xl:w-[30%] 2xl:w-[30%]">
-        <div className="flex justify-end cursor-pointer">
-          <RxCross2 color="white" size={20} />
-        </div>
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center my-6">
           <img
             src={Logo}
             alt="lucky-star-logo"

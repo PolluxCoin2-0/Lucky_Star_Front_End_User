@@ -128,14 +128,15 @@ const Home = () => {
       >
         Smart Contract Gaming Plateform
       </button>
-      <div className="text-center">
-        <button
-          type="button"
-          className="bg-white py-3 px-4 text-center text-xl font-bold rounded-xl text-black focus:outline-none w-1/3"
-        >
-          Time :- 9am to 11am
-        </button>
-      </div>
+      <div className="flex items-center justify-center">
+  <div className="flex items-center justify-center space-x-6 bg-white w-1/3 rounded-xl py-1">
+    <p className="py-3 px-4 text-center text-xl font-bold text-black">
+      Time: 9AM to 11AM
+    </p>
+    <p className={`${buttonDisabled?"bg-green-50 text-green-800":"text-red-600 bg-red-50"} rounded-md py-1 px-4 text-2xl font-bold live-indicator`}>{buttonDisabled?"LIVE":"CLOSED"}</p>
+  </div>
+</div>
+
 
       {/* Bet Table and Current Bidding */}
       <div className="flex flex-row items-start justify-between space-x-6 my-8">
@@ -319,16 +320,10 @@ const Home = () => {
           <div className="w-full bg-white  rounded-lg overflow-hidden mt-5">
             {/* Table Header */}
             <div className="w-full flex flex-col sm:flex-row items-center justify-between text-black py-3 bg-gray-200">
-              <p className="w-full sm:w-[25%] pl-8 font-semibold text-center sm:text-left">
+              <p className="w-full sm:w-[50%] pl-8 font-semibold text-center sm:text-left">
                 User Address
               </p>
-              <p className="w-full sm:w-[25%] text-center font-semibold">
-                Bid No
-              </p>
-              <p className="w-full sm:w-[25%] text-center font-semibold">
-                Bid Amount
-              </p>
-              <p className="w-full sm:w-[25%] text-center font-semibold">
+              <p className="w-full sm:w-[50%] text-center font-semibold">
                 Winning Amount
               </p>
             </div>
@@ -342,12 +337,10 @@ const Home = () => {
                     index % 2 !== 0 ? "bg-gray-100" : "bg-white"
                   }`}
                 >
-                  <p className="w-full sm:w-[25%] pl-8 text-center sm:text-left truncate">
+                  <p className="w-full sm:w-[50%] pl-8 text-center sm:text-left truncate">
                     {item.code}
                   </p>
-                  <p className="w-full sm:w-[25%] text-center">{item.value1}</p>
-                  <p className="w-full sm:w-[25%] text-center">{item.value2}</p>
-                  <p className="w-full sm:w-[25%] text-center">{item.value3}</p>
+                  <p className="w-full sm:w-[50%] text-center">{item.value3}</p>
                 </div>
               ))}
             </div>
