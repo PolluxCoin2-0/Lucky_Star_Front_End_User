@@ -18,14 +18,11 @@ const data = Array(10).fill({
     <div className="w-full bg-white mt-6 rounded-lg overflow-hidden">
     {/* Table Header */}
     <div className="w-full flex flex-col sm:flex-row items-center justify-between text-black py-3 bg-gray-200">
-      <p className="w-full sm:w-[25%] pl-8 font-semibold text-center sm:text-left">
+      <p className="w-full sm:w-[50%] pl-8 font-semibold text-center sm:text-left">
         User Address
       </p>
-      <p className="w-full sm:w-[25%] text-center font-semibold">Bid No</p>
-      <p className="w-full sm:w-[25%] text-center font-semibold">
-        Bid Amount
-      </p>
-      <p className="w-full sm:w-[25%] text-center font-semibold">
+      
+      <p className="w-full sm:w-[50%] text-center font-semibold">
         Winning Amount
       </p>
     </div>
@@ -39,12 +36,11 @@ const data = Array(10).fill({
             index % 2 !== 0 ? "bg-gray-100" : "bg-white"
           }`}
         >
-          <p className="w-full sm:w-[25%] pl-8 text-center sm:text-left truncate">
+          <p className="w-full sm:w-[50%] pl-8 text-center sm:text-left truncate">
             {item.code}
           </p>
-          <p className="w-full sm:w-[25%] text-center">{item.value1}</p>
-          <p className="w-full sm:w-[25%] text-center">{item.value2}</p>
-          <p className="w-full sm:w-[25%] text-center">{item.value3}</p>
+          
+          <p className="w-full sm:w-[50%] text-center">{item.value3}</p>
         </div>
       ))}
     </div>
