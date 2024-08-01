@@ -34,22 +34,10 @@ const Balance = () => {
           type="button"
           className="bg-[#FBBE2F] py-2 px-8 text-center whitespace-nowrap font-bold rounded-md text-black focus:outline-none"
         >
-          All
+          My Winning Bids
         </button>
 
-        <button
-          type="button"
-          className="bg-white py-2 px-6 text-center whitespace-nowrap font-bold rounded-xl text-black focus:outline-none"
-        >
-          Winning
-        </button>
-
-        <button
-          type="button"
-          className="bg-white py-2 px-6 text-center whitespace-nowrap font-bold rounded-xl text-black focus:outline-none"
-        >
-          Loose
-        </button>
+        
       </div>
       <UserTable />
     </div>

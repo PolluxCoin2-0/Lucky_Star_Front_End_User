@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import HeroImg from "../assets/HomeHero.png";
-import { Search, UserTable } from "../components";
+import { SensexValue, TradingViewWidget, UserTable } from "../components";
 import { MdOutlineArrowUpward } from "react-icons/md";
 import { placeBid } from "../utils/Axios";
 
@@ -26,7 +26,27 @@ const Home = () => {
     minimumBid:"",
     bidNo:""
   })
-  function isTimeBetween9And11AM() {
+
+  function formatDateTime() {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+  
+    const now = new Date();
+    const month = months[now.getMonth()];
+    const day = now.getDate();
+    const year = now.getFullYear();
+    const hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const hour12 = hours % 12 || 12;
+  
+    return `${month} ${day} ${year}, ${hour12}:${minutes}:${seconds} ${ampm}`;
+  }
+  
+          function isTimeBetween9And11AM() {
     // Get the current time in IST
     const currentIST = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
     const dateIST = new Date(currentIST);
@@ -77,49 +97,23 @@ const Home = () => {
   return (
     <div className="px-24 bg-black min-h-screen">
       <div className="pt-8">
-        <img src={HeroImg} alt="heroImg-luckystar" />
+        <img src={HeroImg} alt="heroImg-luckystar" className="w-full" />
       </div>
 
       {/* Chart */}
-      <div className="flex flex-row items-center justify-between space-x-6 bg-white rounded-lg px-4 pt-6 pb-12 mt-6">
-        <div className="w-3/4">{/* Integrate chart here */}</div>
-        <div className="w-1/4">
-          <div className="border-b-[2px] border-[#B3B3B3]">
-            <p className="font-bold text-2xl mb-5">81,000.74</p>
-            <div className="flex flex-row items-center space-x-6 mb-5">
-              <div className="flex flex-row items-center space-x-2 bg-[#E8F4EB] px-3 py-2 rounded-lg">
-                <MdOutlineArrowUpward size={24} color="#107407" />
-                <p className="text-xl font-medium text-[#107407]">1.93%</p>
-              </div>
-              <p className="text-xl font-medium">+1,232.92 Today</p>
-            </div>
-            <p className="text-lg text-[#4D4D4D]">Jul 26, 3:30:55 PM </p>
-            <p className="text-lg text-[#4D4D4D] pb-6">
-              UTC+5:30 · INDEXBOM · Disclaimer
-            </p>
-          </div>
-          <div className="pt-6">
-            <p className="font-bold text-2xl mb-6">Yestrday Day Rate</p>
-            <div className="flex flex-row items-center space-x-10">
-              <div>
-                <p className="text-xl text-stone-700 font-semibold mb-6">
-                  Last High
-                </p>
-                <span className="text-xl font-medium text-[#107407] bg-[#E8F4EB] px-5 py-3 rounded-3xl">
-                  81,000.74
-                </span>
-              </div>
+      <div className="flex flex-row items-start justify-between space-x-6 bg-white rounded-lg px-4 pt-6 pb-12 mt-6">
 
-              <div>
-                <p className="text-xl text-stone-700 font-semibold mb-6">
-                  Last Low
-                </p>
-                <span className="text-xl font-medium text-[#DC2430] bg-[#FFBCC1] px-5 py-3 rounded-3xl">
-                  81,000.74
-                </span>
-              </div>
-            </div>
+        {/* Integrate chart here */}
+        <div className="w-3/4 h-[500px]">
+        <TradingViewWidget/>
+        </div>
+        <div className="w-1/4">
+        <SensexValue/>
+          <div >
+           
+            <p className="text-lg text-[#4D4D4D] -mt-8 pb-6">{formatDateTime()}</p>
           </div>
+       
         </div>
       </div>
       <button
