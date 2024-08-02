@@ -49,7 +49,6 @@ export const connectWallet = async(walletAddress)=>{
     }
 }
 
-
 // BET >> PLACE BID
 export const placeBid = async(placeBidData)=>{
     try {
@@ -60,6 +59,16 @@ export const placeBid = async(placeBidData)=>{
         return res?.data
     } catch (error) {
         console.log(error);
+    }
+}
+
+// SENSEX CHART API
+export const sensexChartData = async()=>{
+    try {
+        const res = await axios.get("http://localhost:3001/proxy")
+        return res?.data;
+    } catch (error) {
+     console.log(error);   
     }
 }
 
