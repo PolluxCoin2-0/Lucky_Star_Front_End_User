@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Balance, Faqs, Home, OTP, Signup, UserData, Wallet, Winner } from "./pages";
+import { Balance, Faqs, Home, OTP, Signup, UserData, Wallet, Winner, BiddingPage, Dashboard, } from "./pages";
 import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 import { ToastContainer, Zoom} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
 
   return (
@@ -27,6 +28,8 @@ function App() {
             <Route path="/faqs" element={<Faqs />} />
             <Route path="/balance" element={<Balance />} />
             <Route path="/user" element={<UserData />} />
+            <Route path="/admin/bidding" element={<BiddingPage />} />
+            <Route path="/admin/dashborad" element={<Dashboard />} />
           </Routes>
           <Footer/>
     </Router>
