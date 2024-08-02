@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import HeroImg from "../../assets/HomeHero.png";
 import { SensexValue, UserTable } from "../../components";
 import { placeBid, sensexChartData } from "../../utils/Axios";
-import { MdOutlineArrowUpward } from "react-icons/md";
 import { FormatNumberWithCommas } from "../../utils/FormatNumberWithCommas";
 
 const data2 = Array(7).fill({
