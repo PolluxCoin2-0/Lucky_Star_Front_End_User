@@ -1,16 +1,7 @@
 import { useEffect, useState } from "react";
-import HeroImg from "../assets/HomeHero.png";
-import { SensexValue, TradingViewWidget, UserTable } from "../components";
-import { MdOutlineArrowUpward } from "react-icons/md";
-import { placeBid } from "../utils/Axios";
-
-const data = Array(5).fill({
-  hash: "1",
-  value1: "2x",
-  value2: "One",
-  value3: "$1",
-  value4: "...",
-});
+import HeroImg from "../../assets/HomeHero.png";
+import { SensexValue, TradingViewWidget, UserTable } from "../../components";
+import { placeBid } from "../../utils/Axios";
 
 const data2 = Array(7).fill({
   code: "1",

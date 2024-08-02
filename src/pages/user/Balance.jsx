@@ -1,5 +1,5 @@
-import Search from "../components/Search";
-import UserTable from "../components/UserTable";
+import Search from "../../components/Search";
+import UserTable from "../../components/UserTable";
 
 const Balance = () => {
   const balanceUSDX = sessionStorage.getItem("balanceUSDX");

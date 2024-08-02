@@ -1,4 +1,4 @@
-import { Search, UserTable } from "../components";
+import { Search, UserTable } from "../../components";
 
 const Winner = () => {
   return (

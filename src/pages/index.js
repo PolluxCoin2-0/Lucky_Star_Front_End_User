@@ -1,11 +1,11 @@
 import Signup from "./Auth/Signup";
 import OTP from "./Auth/OTP";
 import Wallet from "./Auth/Wallet";
-import Home from "./Home";
-import Winner from "./Winner";
-import Faqs from "./Faqs";
-import Balance from "./Balance";
-import UserData from "./UserData";
+import Home from "./user/Home";
+import Winner from "./user/Winner";
+import Faqs from "./user/Faqs";
+import Balance from "./user/Balance";
+import UserData from "./user/UserData";
 
 export {
     Signup,
