@@ -6,7 +6,8 @@ import Winner from "./user/Winner";
 import Faqs from "./user/Faqs";
 import Balance from "./user/Balance";
 import UserData from "./user/UserData";
-
+import BiddingPage from "./admin/BiddingPage";
+import Dashboard from "./admin/Dashboard";
 export {
     Signup,
     OTP,
@@ -15,5 +16,7 @@ export {
     Winner,
     Faqs,
     Balance,
-    UserData
+    UserData,
+    BiddingPage,
+    Dashboard,
 }
