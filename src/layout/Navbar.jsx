@@ -3,12 +3,14 @@ import Logo from "../assets/logo_lucky.png";
 import { FaUserCircle } from "react-icons/fa";
 import { HiMenu } from "react-icons/hi";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [showNavbar, setShowNavbar] = useState(false);
-  const isUserSignup = sessionStorage.getItem("isUserSignup");
-
+  const isUserSignup = useSelector((state)=>state.wallet.signup);
   const mobileSignup = isUserSignup ? "true" : "false";
+  const walletAddress = useSelector((state)=>state.wallet.address)
+
   return (
     <>
       {/* For md, xl, 2xl Navbar */}
@@ -42,7 +44,7 @@ const Navbar = () => {
               type="button"
               className="bg-[#FBBE2F] py-2 px-4 w-full text-center whitespace-nowrap font-bold rounded-xl text-black focus:outline-none"
             >
-              Connect Wallet
+              {walletAddress.length>0 ? walletAddress:"Connect Wallet"}
             </button>
           </Link>
           {isUserSignup && (
@@ -104,7 +106,7 @@ const Navbar = () => {
               to="/wallet"
               className="px-4 py-2 font-semibold hover:bg-gray-200 rounded-lg transition"
             >
-              Connect Wallet
+                            {walletAddress.length>0 ? walletAddress:"Connect Wallet"}
             </Link>
           </div>
         )}

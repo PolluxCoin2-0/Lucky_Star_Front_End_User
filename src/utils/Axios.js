@@ -63,12 +63,12 @@ export const placeBid = async(placeBidData)=>{
 }
 
 // SENSEX CHART API
-export const sensexChartData = async()=>{
+export const sensexChartData = async (today, yesterday) => {
     try {
-        const res = await axios.get("http://localhost:3001/proxy")
-        return res?.data;
+      const res = await axios.get(`http://localhost:3001/proxy?today=${today}&yesterday=${yesterday}`);
+      return res?.data;
     } catch (error) {
-     console.log(error);   
+      console.log(error);
     }
-}
+  };
 

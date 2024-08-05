@@ -100,9 +100,30 @@ const Home = () => {
 
   console.log(placeBidData);
 
+  function getUnixTimestamps() {
+    const today = new Date();
+    const yesterday = new Date(today);
+  
+    // Set today time to 05:00:00 PM
+    today.setHours(17, 0, 0, 0);
+  
+    // Set yesterday time to 08:00:00 AM
+    yesterday.setDate(today.getDate() - 2);
+    yesterday.setHours(8, 0, 0, 0);
+  
+    const todayTimestamp = Math.floor(today.getTime() / 1000);
+    const yesterdayTimestamp = Math.floor(yesterday.getTime() / 1000);
+  
+    return {
+      today: todayTimestamp,
+      yesterday: yesterdayTimestamp
+    };
+  }
+  
   useEffect(() => {
     const dataFromChartApi = async () => {
-      const apiResponse = await sensexChartData();
+      const dateData = getUnixTimestamps()
+      const apiResponse = await sensexChartData(dateData?.today, dateData?.yesterday);
 
       const result = apiResponse.chart.result[0];
       setMetaData(apiResponse.chart.result[0].meta);
@@ -124,8 +145,8 @@ const Home = () => {
 
     dataFromChartApi();
 
-    // Set up interval to fetch data every minute (60000 ms)
-    const intervalId = setInterval(dataFromChartApi, 60000);
+    // Set up interval to fetch data every minute (30000 ms)
+    const intervalId = setInterval(dataFromChartApi, 30000);
 
     // Clear interval on component unmount
     return () => clearInterval(intervalId);

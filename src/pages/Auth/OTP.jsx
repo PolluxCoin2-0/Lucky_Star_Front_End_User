@@ -4,16 +4,20 @@ import { useState } from "react";
 import { verifyOtp } from "../../utils/Axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { setSignup } from "../../redux/slice";
 
 const OTP = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [otp, setOtp] = useState("");
-  const userEmail = sessionStorage.getItem("userEmail");
+  const userEmail = useSelector((state)=>state.wallet.email);
+  const isUserSignUp = useSelector((state)=>state.wallet.signup);
 
   const handleVerifyOtp = async()=> {
     const apiData = await verifyOtp(userEmail,otp);
     if(apiData?.statusCode===200){
-      sessionStorage.setItem("isUserSignup", true);
+      dispatch(setSignup(!isUserSignUp));
       toast.success("OTP verified successfully")
        navigate("/wallet");
     }else{

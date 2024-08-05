@@ -4,10 +4,13 @@ import Navbar from "./layout/Navbar";
 import Footer from "./layout/Footer";
 import { ToastContainer, Zoom} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 function App() {
 
   return (
+    <Provider store={store}>
     <Router>
       <Navbar/>
       <ToastContainer 
@@ -33,6 +36,7 @@ function App() {
           </Routes>
           <Footer/>
     </Router>
+       </Provider>
   )
 }
 

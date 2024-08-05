@@ -5,9 +5,13 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { postSignup } from "../../utils/Axios";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setEmail } from "../../redux/slice";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     email: "",
     phone: "",
@@ -40,7 +44,7 @@ const Signup = () => {
    } else if(apiData?.data==="WalletAddress Already Exist"){
     return toast.error(`WalletAddress Already Exist`); 
    }  else if(apiData?.statusCode===200){
-    sessionStorage.setItem("userEmail", formData.email)
+    dispatch(setEmail(formData.email))
     toast.success("OTP sent successfully")
      navigate("/otp");
    }
