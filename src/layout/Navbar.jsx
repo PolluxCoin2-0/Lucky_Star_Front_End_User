@@ -45,14 +45,6 @@ const Navbar = () => {
     }
   };
 
-  const handleGoToWalletPage=()=>{
-    if(isUserSignup) {
-      navigate("/wallet")
-    }else{
-      navigate("/signup")
-    }
-  }
-
   return (
     <>
       {/* For md, xl, 2xl Navbar */}
@@ -82,13 +74,14 @@ const Navbar = () => {
               {isUserSignup ? "Sign out" : "Signup"}
             </button>
 
+            <Link to="/wallet">
             <button
               type="button"
               className="bg-[#FBBE2F] py-2 px-4 w-full text-center whitespace-nowrap font-bold rounded-xl text-black focus:outline-none"
-              onClick={handleGoToWalletPage}
             >
               {walletAddress.length>0 ? truncateString(walletAddress):"Connect Wallet"}
             </button>
+            </Link>
 
           {isUserSignup && (
             <Link to="/user">
@@ -150,7 +143,7 @@ const Navbar = () => {
               to="/wallet"
               className="px-4 py-2 font-semibold hover:bg-gray-200 rounded-lg transition"
             >
-                            {walletAddress.length>0 ? walletAddress:"Connect Wallet"}
+            {walletAddress.length>0 ? truncateString(walletAddress):"Connect Wallet"}
             </Link>
           </div>
         )}

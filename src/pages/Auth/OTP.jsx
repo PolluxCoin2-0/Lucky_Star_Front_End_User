@@ -27,7 +27,8 @@ const OTP = () => {
 
   return (
     <div className="bg-gradient-to-r from-[#58A0A6] to-[#C89D42] text-white flex justify-center items-center min-h-screen">
-      <div className="bg-black px-8 pt-4 pb-12 rounded-3xl w-[90%]  md:w-[60%] lg:w-[50%] xl:w-[30%] 2xl:w-[30%]">
+      <div className="bg-black px-8 pt-4 pb-12 rounded-3xl w-[90%]  md:w-[60%] lg:w-[50%] xl:w-[30%] 2xl:w-[30%]
+      my-0 md:my-12 lg:my-0 xl:my-0 2xl:my-0">
         <div className="flex justify-center my-6">
           <img
             src={Logo}

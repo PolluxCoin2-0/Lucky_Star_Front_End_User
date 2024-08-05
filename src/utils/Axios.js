@@ -36,7 +36,6 @@ export const verifyOtp = async (email, otp) => {
 
 // LOGIN
 export const connectWallet = async (walletAddress) => {
-  console.log(walletAddress);
   try {
     const res = await axios.post(BASE_URL + "/login", {
       walletAddress: walletAddress,
