@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import HeroImg from "../../assets/HomeHero.png";
 import { SensexValue, UserTable } from "../../components";
-import { placeBid, sensexChartData } from "../../utils/Axios";
+import { getApproval, getBiddingList, getWinnersByIndex, getWinningCount, placeBid, sensexChartData } from "../../utils/Axios";
 import { FormatNumberWithCommas } from "../../utils/FormatNumberWithCommas";
-
-const data2 = Array(7).fill({
-  code: "1",
-  value1: "2x",
-  value2: "One",
-  value3: "$1",
-});
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  const walletAddress = useSelector((state) => state.wallet.address);
+  const token = useSelector((state)=>state.wallet.token)
   const [chartData, setChartData] = useState([]);
   const [metaData, setMetaData] = useState({});
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -20,6 +16,8 @@ const Home = () => {
     minimumBid: "",
     bidNo: "",
   });
+  const [winnerList, setWinnerList] = useState([]);
+  const [biddingList, setBiddingList] = useState([]);
 
   function formatDateTime() {
     const months = [
@@ -78,6 +76,41 @@ const Home = () => {
     };
 
     checkTime();
+
+    const fetchWinners = async () => {
+      try {
+        // Get the total count of winners
+        const countData = await getWinningCount();
+        const winnerCount = countData?.count; // Adjust this based on your actual API response structure
+
+        // Fetch winner details for each index and store them in an array
+        const winners = [];
+        for (let i = 0; i < winnerCount; i++) {
+          const winnerData = await getWinnersByIndex(i);
+          winners.push(winnerData);
+        }
+
+        // Update the state with the list of winners
+        setWinnerList(winners);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchWinners();
+
+    const fetchBiddingList = async () => {
+      try {
+        const biddingListResponse = await getBiddingList();
+        const sortedBiddingList = biddingListResponse?.data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setBiddingList(sortedBiddingList);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchBiddingList();
   }, []);
 
   const handleChange = (event, keyNumber) => {
@@ -89,44 +122,64 @@ const Home = () => {
     }));
   };
 
-  const handlePlaceBid = async () => {
+  const handlePlaceBid = async (digit) => {
     if (!buttonDisabled) {
-      console.log("hfshdfg");
-      return;
+      return ;
     }
-    const apiData = await placeBid(placeBidData);
-    console.log(apiData);
-  };
 
-  console.log(placeBidData);
+    const transaction = await getApproval(
+      walletAddress,
+      placeBidData?.minimumBid
+    );
+
+    const signedTransaction1 = await window.pox.signdata(
+      transaction?.data?.transaction
+    );
+
+     JSON.stringify(
+      await window.pox.broadcast(JSON.parse(signedTransaction1[1]))
+    );
+    const apiData = await placeBid(placeBidData, walletAddress, token);
+
+    const signedTransaction2 = await window.pox.signdata(
+      apiData?.data?.transaction
+    );
+
+     JSON.stringify(
+      await window.pox.broadcast(JSON.parse(signedTransaction2[1]))
+    );
+
+  };
 
   function getUnixTimestamps() {
     const today = new Date();
     const yesterday = new Date(today);
-  
+
     // Set today time to 05:00:00 PM
     today.setHours(17, 0, 0, 0);
-  
+
     // Set yesterday time to 08:00:00 AM
     yesterday.setDate(today.getDate() - 2);
     yesterday.setHours(8, 0, 0, 0);
-  
+
     const todayTimestamp = Math.floor(today.getTime() / 1000);
     const yesterdayTimestamp = Math.floor(yesterday.getTime() / 1000);
-  
+
     return {
       today: todayTimestamp,
-      yesterday: yesterdayTimestamp
+      yesterday: yesterdayTimestamp,
     };
   }
-  
+
   useEffect(() => {
     const dataFromChartApi = async () => {
-      const dateData = getUnixTimestamps()
-      const apiResponse = await sensexChartData(dateData?.today, dateData?.yesterday);
-
-      const result = apiResponse.chart.result[0];
-      setMetaData(apiResponse.chart.result[0].meta);
+      const dateData = getUnixTimestamps();
+      const apiResponse = await sensexChartData(
+        dateData?.today,
+        dateData?.yesterday
+      );
+      const result = apiResponse.data?.chart.result[0];
+      setMetaData(apiResponse.data.chart.result[0].meta);
       const timestamps = result.timestamp;
       const indicators = result.indicators.quote[0];
 
@@ -153,7 +206,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="px-24 bg-black min-h-screen">
+    <div className="px-24 bgimage bg-black min-h-screen">
       <div className="pt-8">
         <img src={HeroImg} alt="heroImg-luckystar" className="w-full" />
       </div>
@@ -170,22 +223,25 @@ const Home = () => {
             <p className="font-bold text-5xl mb-2 bg-gradient-to-r from-[#FF4B00] to-[#CFC800] bg-clip-text text-transparent">
               ₹{" "}
               {metaData?.regularMarketPrice &&
-                FormatNumberWithCommas(metaData?.regularMarketPrice)}
+                FormatNumberWithCommas(metaData?.regularMarketPrice)} 
             </p>
+            <p className="text-sm text-gray-400 font-medium mb-1">Source: Yahoo Finance</p>
 
             <p className="text-lg text-gray-500 mb-2">{formatDateTime()}</p>
             <div className="space-y-2">
               <p className="text-lg font-medium text-gray-700">
                 Today's High:{" "}
                 <span className="text-green-600">
-                ₹{metaData?.regularMarketDayHigh &&
+                  ₹
+                  {metaData?.regularMarketDayHigh &&
                     FormatNumberWithCommas(metaData?.regularMarketDayHigh)}
                 </span>
               </p>
               <p className="text-lg font-medium text-gray-700">
                 Today's Low:{" "}
                 <span className="text-red-600">
-                ₹{metaData?.regularMarketDayLow &&
+                  ₹
+                  {metaData?.regularMarketDayLow &&
                     FormatNumberWithCommas(metaData?.regularMarketDayLow)}
                 </span>
               </p>
@@ -199,10 +255,11 @@ const Home = () => {
               <p className="text-lg font-medium text-gray-700">
                 Day's Range:{" "}
                 <span className="text-yellow-600">
-                ₹{metaData?.regularMarketDayHigh &&
+                  ₹
+                  {metaData?.regularMarketDayHigh &&
                     FormatNumberWithCommas(metaData?.regularMarketDayHigh)}{" "}
-                  -
-                  ₹{metaData?.regularMarketDayLow &&
+                  - ₹
+                  {metaData?.regularMarketDayLow &&
                     FormatNumberWithCommas(metaData?.regularMarketDayLow)}
                 </span>
               </p>
@@ -215,7 +272,8 @@ const Home = () => {
                   Yesterday's Close:
                 </p>
                 <span className="text-xl font-medium text-gray-900 bg-gray-100 px-12 py-3 rounded-lg">
-                ₹{metaData?.chartPreviousClose &&
+                  ₹
+                  {metaData?.chartPreviousClose &&
                     FormatNumberWithCommas(metaData?.chartPreviousClose)}
                 </span>
               </div>
@@ -224,7 +282,8 @@ const Home = () => {
                   Day Before Yesterday:
                 </p>
                 <span className="text-xl font-medium text-gray-900 bg-gray-100 px-12 py-3 rounded-lg">
-                ₹{metaData?.previousClose &&
+                  ₹
+                  {metaData?.previousClose &&
                     FormatNumberWithCommas(metaData?.previousClose)}
                 </span>
               </div>
@@ -315,7 +374,7 @@ const Home = () => {
                         : "bg-gray-300 text-gray-500 cursor-not-allowed "
                     }`}
                 disabled={buttonDisabled}
-                onClick={handlePlaceBid}
+                onClick={() => handlePlaceBid(1)}
               >
                 Bet
               </button>
@@ -354,6 +413,7 @@ const Home = () => {
                         : "bg-gray-300 text-gray-500 cursor-not-allowed "
                     }`}
                 disabled={buttonDisabled}
+                onClick={() => handlePlaceBid(2)}
               >
                 Bet
               </button>
@@ -392,6 +452,7 @@ const Home = () => {
                         : "bg-gray-300 text-gray-500 cursor-not-allowed "
                     }`}
                 disabled={buttonDisabled}
+                onClick={() => handlePlaceBid(3)}
               >
                 Bet
               </button>
@@ -430,6 +491,7 @@ const Home = () => {
                         : "bg-gray-300 text-gray-500 cursor-not-allowed "
                     }`}
                 disabled={buttonDisabled}
+                onClick={() => handlePlaceBid(4)}
               >
                 Bet
               </button>
@@ -468,6 +530,7 @@ const Home = () => {
                         : "bg-gray-300 text-gray-500 cursor-not-allowed "
                     }`}
                 disabled={buttonDisabled}
+                onClick={() => handlePlaceBid(5)}
               >
                 Bet
               </button>
@@ -503,7 +566,7 @@ const Home = () => {
 
             {/* Table Data */}
             <div className="w-full text-black">
-              {data2.map((item, index) => (
+              {biddingList.map((item, index) => (
                 <div
                   key={index}
                   className={`w-full flex flex-col sm:flex-row items-center justify-between py-[13.5px] ${
@@ -511,11 +574,11 @@ const Home = () => {
                   }`}
                 >
                   <p className="w-full sm:w-[25%] pl-8 text-center sm:text-left truncate">
-                    {item.code}
+                    {item.walletAddress}
                   </p>
-                  <p className="w-full sm:w-[25%] text-center">{item.value3}</p>
-                  <p className="w-full sm:w-[25%] text-center">{item.value3}</p>
-                  <p className="w-full sm:w-[25%] text-center">{item.value3}</p>
+                  <p className="w-full sm:w-[25%] text-center">{item.bidAmount}</p>
+                  <p className="w-full sm:w-[25%] text-center">{item.bidNumber}</p>
+                  <p className="w-full sm:w-[25%] text-center">{item.bidDigit}</p>
                 </div>
               ))}
             </div>
@@ -523,7 +586,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Today Winner and Yesterday Winner */}
+      {/* Yesterday Winner */}
       <div className=" py-8">
         <div className="w-full">
           <button

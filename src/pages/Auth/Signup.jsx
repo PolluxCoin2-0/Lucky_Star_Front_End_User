@@ -175,7 +175,7 @@ const Signup = () => {
               className="absolute top-0 left-3 px-2 py-1 font-semibold text-base tracking-wider bg-black inline-block  transition-all duration-300 transform -translate-y-3 
         scale-75 origin-top-left text-white"
             >
-              Referral
+              Referral (OPTIONAL)
             </label>
           </div>
         </div>

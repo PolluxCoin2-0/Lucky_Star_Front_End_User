@@ -45,7 +45,7 @@ const data = Array(10).fill({
       ))}
     </div>
 
-    <Pagination totalPages="10" onPageChange={handlePageChange} />
+    {/* <Pagination totalPages="10" onPageChange={handlePageChange} /> */}
   </div>
   )
 }

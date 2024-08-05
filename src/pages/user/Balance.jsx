@@ -1,9 +1,22 @@
 import { useSelector } from "react-redux";
 import Search from "../../components/Search";
 import UserTable from "../../components/UserTable";
+import { useEffect } from "react";
+import { getWinningBalance } from "../../utils/Axios";
 
 const Balance = () => {
   const balanceUSDX = useSelector((state)=>state.wallet.balanceUSDX);
+  const walletAddress = useSelector((state)=>state.wallet.address)
+  const token = useSelector((state)=>state.wallet.token);
+
+  useEffect(()=>{
+    const fetchData = async()=>{
+      const apiData = await getWinningBalance(walletAddress, token);
+      console.log(apiData);
+    }
+
+    fetchData();
+  },[])
   return (
     <div className="bgimage px-24 bg-black min-h-screen text-white pb-12">
       <Search />
