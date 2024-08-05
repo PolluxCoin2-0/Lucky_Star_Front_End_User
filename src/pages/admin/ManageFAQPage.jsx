@@ -2,55 +2,73 @@ import { useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 
 const ManageFAQPage = () => {
+  // Initialize state for FAQs
+  const [faqs, setFaqs] = useState([{ question: '', answer: '' }]);
 
-    // Initialize state for input value
-  const [inputValue, setInputValue] = useState('');
+  // Handler for input changes
+  const handleInputChange = (index, field, value) => {
+    const newFaqs = [...faqs];
+    newFaqs[index][field] = value;
+    setFaqs(newFaqs);
+  };
 
-  // Handler for input change
-  const handleChange = (event) => {
-    setInputValue(event.target.value); // Update state with input value
+  // Handler for adding new FAQ form
+  const handleAddFaqForm = () => {
+    setFaqs([...faqs, { question: '', answer: '' }]);
+  };
+
+  // Handler for deleting an FAQ
+  const handleDeleteFaq = (index) => {
+    const newFaqs = faqs.filter((_, i) => i !== index);
+    setFaqs(newFaqs);
   };
 
   return (
     <div>
-<div className="bg-white rounded-xl shadow-xl mt-10 p-5 pb-6">
-      <div className="flex flex-row  justify-between ">
-      <p className="text-black text-lg font-bold ">FAQ's</p>
-      <p><RxCross1 size={24} /></p>
-      </div>
 
-      <div className="mt-3">
-      <p className="text-lg font-semibold">Question:</p>
-      <input
-      type="text"
-      value={inputValue}
-      onChange={handleChange} // Attach change handler
-      placeholder="What is Lucky Star?"
-      className="mt-2 bg-[#F3F3F3] w-full outline-none rounded-md py-3 p-2"
-    />
-      </div>
+      <p className="text-xl font-semibold text-white mt-7">Manage FAQ'S</p>
+      {/* Render FAQ Input Forms */}
+      {faqs.map((faq, index) => (
+        <div key={index} className="bg-white rounded-xl shadow-xl mt-5 p-5 pb-8">
 
-      <div className="mt-3">
-      <p className="text-lg font-semibold">Answer:</p>
-      <input
-      type="text"
-      value={inputValue}
-      onChange={handleChange} // Attach change handler
-      placeholder=" Cryptocurrency lending platforms are like intermediaries that connect lenders to borrowers. Lenders deposit their crypto into high-interest lending "
-      className="mt-2 bg-[#F3F3F3] w-full outline-none rounded-md py-3 p-2"
-    />
+          <div className="flex flex-row justify-between">
+            <p className="text-black text-lg font-bold">FAQ {index + 1}</p>
+            <button onClick={() => handleDeleteFaq(index)}>
+              <RxCross1 size={24} />
+            </button>
+          </div>
+          <div className="mt-3">
+            <p className="text-lg font-semibold">Question:</p>
+            <input
+              type="text"
+              value={faq.question}
+              onChange={(e) => handleInputChange(index, 'question', e.target.value)}
+              placeholder="What is Lucky Star?"
+              className="mt-2 bg-[#F3F3F3] w-full outline-none rounded-md py-3 p-2"
+            />
+          </div>
+          <div className="mt-3">
+            <p className="text-lg font-semibold">Answer:</p>
+            <input
+              type="text"
+              value={faq.answer}
+              onChange={(e) => handleInputChange(index, 'answer', e.target.value)}
+              placeholder="Cryptocurrency lending platforms are like intermediaries that connect lenders to borrowers. Lenders deposit their crypto into high-interest lending"
+              className="mt-2 bg-[#F3F3F3] w-full outline-none rounded-md py-3 p-2"
+            />
+          </div>
+        </div>
+      ))}
+      <div className="flex justify-center">
+        <button
+          className="px-14 py-3 font-semibold mt-12 bg-white text-black rounded-lg hover:bg-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          onClick={handleAddFaqForm}
+        >
+          Add
+        </button>
       </div>
     </div>
+  );
+};
 
-    <div className="flex justify-center">
-    <button className="px-14 py-3 font-semibold mt-12 bg-white text-black rounded-lg hover:bg-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-      Add
-    </button>
-  </div>
-    
-
-    </div>
-  )
-}
-
-export default ManageFAQPage
+export default ManageFAQPage;
