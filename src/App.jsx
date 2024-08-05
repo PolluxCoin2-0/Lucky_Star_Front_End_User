@@ -32,7 +32,7 @@ function App() {
             <Route path="/balance" element={<Balance />} />
             <Route path="/user" element={<UserData />} />
             <Route path="/admin/bidding" element={<BiddingPage />} />
-            <Route path="/admin/dashborad" element={<Dashboard />} />
+            <Route path="/admin/dashboard" element={<Dashboard />} />
           </Routes>
           <Footer/>
     </Router>

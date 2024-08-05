@@ -53,9 +53,9 @@ const BiddingPage = () => {
                 <p className="text-lg font-semibold text-slate-500">Winning No</p>
                 <div className="mt-4">
               <input
-                type="text"
+                type="number"
                 id="exampleInput"
-                className="w-96 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-96 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 p-2"
                 placeholder=""
               />
             </div>
