@@ -566,7 +566,7 @@ const Home = () => {
 
             {/* Table Data */}
             <div className="w-full text-black">
-              {biddingList.map((item, index) => (
+              {biddingList && biddingList.map((item, index) => (
                 <div
                   key={index}
                   className={`w-full flex flex-col sm:flex-row items-center justify-between py-[13.5px] ${
@@ -574,11 +574,11 @@ const Home = () => {
                   }`}
                 >
                   <p className="w-full sm:w-[25%] pl-8 text-center sm:text-left truncate">
-                    {item.walletAddress}
+                    {item.walletAddress && item.walletAddress}
                   </p>
-                  <p className="w-full sm:w-[25%] text-center">{item.bidAmount}</p>
-                  <p className="w-full sm:w-[25%] text-center">{item.bidNumber}</p>
-                  <p className="w-full sm:w-[25%] text-center">{item.bidDigit}</p>
+                  <p className="w-full sm:w-[25%] text-center">{item.bidAmount && item.bidAmount}</p>
+                  <p className="w-full sm:w-[25%] text-center">{item.bidNumber && item.bidNumber}</p>
+                  <p className="w-full sm:w-[25%] text-center">{item.bidDigit && item.bidDigit}</p>
                 </div>
               ))}
             </div>
