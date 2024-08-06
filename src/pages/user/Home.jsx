@@ -445,7 +445,7 @@ const Home = () => {
                         ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
                         : "bg-gray-300 text-gray-500 cursor-not-allowed "
                     }`}
-                disabled={buttonDisabled}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(2)}
               >
                 Bet
@@ -486,7 +486,7 @@ const Home = () => {
                         ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
                         : "bg-gray-300 text-gray-500 cursor-not-allowed "
                     }`}
-                disabled={buttonDisabled}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(3)}
               >
                 Bet
@@ -527,7 +527,7 @@ const Home = () => {
                         ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
                         : "bg-gray-300 text-gray-500 cursor-not-allowed "
                     }`}
-                disabled={buttonDisabled}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(4)}
               >
                 Bet
@@ -568,7 +568,7 @@ const Home = () => {
                         ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
                         : "bg-gray-300 text-gray-500 cursor-not-allowed "
                     }`}
-                disabled={buttonDisabled}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(5)}
               >
                 Bet
