@@ -216,3 +216,15 @@ export const postDataToMongoDB = async (
     console.log(error);
   }
 };
+
+// GET MULTIPLIER
+export const getMultiplier = async(digit)=>{
+  try {
+    const res = await axios.post(BASE_URL + "/getMultipliers",{
+      digits:digit
+    })
+    return res?.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

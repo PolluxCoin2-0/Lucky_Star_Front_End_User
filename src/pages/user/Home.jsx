@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import HeroImg from "../../assets/HomeHero.png";
 import { SensexValue, UserTable } from "../../components";
-import { getApproval, getBiddingList, getWinnersByIndex, getWinningCount, placeBid, postDataToMongoDB, sensexChartData } from "../../utils/Axios";
+import { getApproval, getBiddingList, getMultiplier, getWinnersByIndex, getWinningCount, placeBid, postDataToMongoDB, sensexChartData } from "../../utils/Axios";
 import { FormatNumberWithCommas } from "../../utils/FormatNumberWithCommas";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Polluxweb from "polluxweb";
 
 const Home = () => {
   const walletAddress = useSelector((state) => state.wallet.address);
@@ -19,6 +20,7 @@ const Home = () => {
   });
   const [winnerList, setWinnerList] = useState([]);
   const [biddingList, setBiddingList] = useState([]);
+  const [mutliplierList, setMutliplierList] = useState([]);
 
   function formatDateTime() {
     const months = [
@@ -195,6 +197,20 @@ const Home = () => {
 
   useEffect(() => {
     const dataFromChartApi = async () => {
+
+      for (let i = 1; i <= 5; i++) {
+        const response = await getMultiplier(i);
+        const newValue = Polluxweb.toDecimal(response?.data?.hex);
+      
+        setMutliplierList((prevState) => {
+          if (!prevState.includes(newValue)) {
+            return [...prevState, newValue];
+          }
+          return prevState;
+        });
+      }
+      
+
       const dateData = getUnixTimestamps();
       const apiResponse = await sensexChartData(
         dateData?.today,
@@ -376,7 +392,7 @@ const Home = () => {
                   1
                 </p>
                 <p className="w-full sm:w-[25%] bg-[#f1f1f1] border-[2px] border-[#e4e3e3] rounded text-gray-400 font-semibold text-center py-1">
-                  2x
+                  {mutliplierList[0]}x
                 </p>
                 <p className="w-full sm:w-[25%] text-center">One</p>
                 <input
@@ -417,7 +433,7 @@ const Home = () => {
                   2
                 </p>
                 <p className="w-full sm:w-[25%] bg-[#f1f1f1] border-[2px] border-[#e4e3e3] rounded text-gray-400 font-semibold text-center py-1">
-                  5x
+                {mutliplierList[1]}x
                 </p>
                 <p className="w-full sm:w-[25%] text-center">Two</p>
                 <input
@@ -458,7 +474,7 @@ const Home = () => {
                   3
                 </p>
                 <p className="w-full sm:w-[25%] bg-[#f1f1f1] border-[2px] border-[#e4e3e3] rounded text-gray-400 font-semibold text-center py-1">
-                  10x
+                {mutliplierList[2]}x
                 </p>
                 <p className="w-full sm:w-[25%] text-center">Three</p>
                 <input
@@ -499,7 +515,7 @@ const Home = () => {
                   4
                 </p>
                 <p className="w-full sm:w-[25%] bg-[#f1f1f1] border-[2px] border-[#e4e3e3] rounded text-gray-400 font-semibold text-center py-1">
-                  20x
+                {mutliplierList[3]}x
                 </p>
                 <p className="w-full sm:w-[25%] text-center">Four</p>
                 <input
@@ -540,7 +556,7 @@ const Home = () => {
                   5
                 </p>
                 <p className="w-full sm:w-[25%] bg-[#f1f1f1] border-[2px] border-[#e4e3e3] rounded text-gray-400 font-semibold text-center py-1">
-                  50x
+                {mutliplierList[4]}x
                 </p>
                 <p className="w-full sm:w-[25%] text-center">Five</p>
                 <input
