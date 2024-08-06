@@ -5,9 +5,13 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { postSignup } from "../../utils/Axios";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setEmail } from "../../redux/slice";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     email: "",
     phone: "",
@@ -40,7 +44,7 @@ const Signup = () => {
    } else if(apiData?.data==="WalletAddress Already Exist"){
     return toast.error(`WalletAddress Already Exist`); 
    }  else if(apiData?.statusCode===200){
-    sessionStorage.setItem("userEmail", formData.email)
+    dispatch(setEmail(formData.email))
     toast.success("OTP sent successfully")
      navigate("/otp");
    }
@@ -48,7 +52,8 @@ const Signup = () => {
 
   return (
     <div className="bg-gradient-to-r from-[#58A0A6] to-[#C89D42] text-white flex justify-center items-center min-h-screen">
-      <div className="bg-black px-8 pt-4 pb-12 rounded-3xl w-[90%]  md:w-[60%] lg:w-[50%] xl:w-[30%] 2xl:w-[30%]">
+      <div className="bg-black px-8 pt-4 pb-12 rounded-3xl w-[90%]  md:w-[60%] lg:w-[50%] xl:w-[50%] 2xl:w-[30%]
+      my-0 md:my-12 lg:my-12 xl:my-12 2xl:my-0">
         <div className="flex justify-center my-6">
           <img
             src={Logo}
@@ -162,8 +167,8 @@ const Signup = () => {
               id="referral"
               value={formData.referral}
               onChange={handleChange}
-              className="block w-full px-4 py-3 bg-black border border-white border-opacity-30 focus:border-opacity-100 rounded-lg text-white focus:outline-none placeholder:text-sm placeholder:text-white placeholder:text-opacity-40"
-              placeholder="LUCKY123"
+              className="block w-full px-4 py-3 bg-black border border-white border-opacity-30 focus:border-opacity-100 rounded-lg text-white focus:outline-none placeholder:text-xs placeholder:text-white placeholder:text-opacity-40"
+              placeholder="LUCKY (OPTIONAL)"
               required
             />
             <label

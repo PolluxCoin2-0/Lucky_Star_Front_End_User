@@ -14,7 +14,7 @@ const UserData = () => {
 
   return (
     <div className="bgimage bg-black text-white min-h-screen px-6 md:px-24 py-12 flex flex-col items-center">
-      <div className="w-full md:w-3/5">
+      <div className="w-full md:w-full lg:w-3/5 xl:w-3/5 2xl:w-3/5">
         <p className="font-bold text-2xl tracking-wider pb-8 text-center">
           PERSONAL INFORMATION
         </p>

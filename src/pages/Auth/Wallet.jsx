@@ -1,12 +1,21 @@
+import { useDispatch, useSelector } from "react-redux";
 import Logo from "../../assets/logo_lucky.png";
 import { connectWallet } from "../../utils/Axios";
 import { useNavigate } from "react-router-dom";
+import { setBalanceUSDX, setSignup, setToken, setWalletAddress } from "../../redux/slice";
+import { toast } from "react-toastify";
 
 const Wallet = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const walletAddress = useSelector((state)=>state.wallet.address);
+  const signupStatus = useSelector((state)=>state.wallet.signup);
 
    // Connect polink wallet
 async function getPolinkweb() {
+  if(walletAddress){
+    return toast.warning("Wallet is already connected")
+  }
   return new Promise((resolve, reject) => {
     const obj = setInterval(async () => {
       if (window.pox) {
@@ -14,8 +23,10 @@ async function getPolinkweb() {
         try {
           const detailsData = JSON.stringify(await window.pox.getDetails());
           const parsedDetailsObject = JSON.parse(detailsData);
-          sessionStorage.setItem("balanceUSDX",parsedDetailsObject[1]?.data?.USDX)
-          sessionStorage.setItem("walletAddress",parsedDetailsObject[1]?.data?.wallet_address)
+          // if()
+          dispatch(setBalanceUSDX(parsedDetailsObject[1]?.data?.USDX))
+          dispatch(setWalletAddress(parsedDetailsObject[1]?.data?.wallet_address))
+          dispatch(setSignup(!signupStatus));
           resolve(parsedDetailsObject[1]?.data?.wallet_address);
         } catch (error) {
           reject(error);
@@ -31,12 +42,12 @@ const handleLogin = async () => {
     if (walletAddress) {
       const apiData = await connectWallet(walletAddress);
       if(apiData?.statusCode==200){
-        sessionStorage.setItem("token", apiData?.data?.token);
+       dispatch(setToken(apiData?.data?.token));
         navigate("/")
+      }else{
+        toast.error("Wallet address is not registered.")
+        navigate("/signup")
       }
-      console.log(apiData);
-    } else {
-      console.error("Failed to get wallet address");
     }
   } catch (error) {
     console.error("Error during login:", error);

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Search } from "../../components"
 import DashboardPage from "./DashboardPage";
 import ManageUsersPage from "./ManageUsersPage";
+import ManageFAQPage from "./ManageFAQPage";
+import AboutUsPage from "./AboutUsPage";
 
 
 const Dashboard = () => {
@@ -14,11 +16,11 @@ const Dashboard = () => {
         case "Manage User":
           return <ManageUsersPage/>;
           case "Transactions":
-            return "No Data Found";
+            return <ManageUsersPage/>;
         case "Manage FAQ's":
-            return "No Data Found";
+            return <ManageFAQPage/>;
         case "About Us":
-            return "No Data Found";
+            return <AboutUsPage />;
   
         default:
           return null;
