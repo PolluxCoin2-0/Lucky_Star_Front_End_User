@@ -5,7 +5,7 @@ import { verifyOtp } from "../../utils/Axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setSignup } from "../../redux/slice";
+import { setCity, setPhone, setPincode, setReferralBy, setReferralCode, setSignup, setState } from "../../redux/slice";
 
 const OTP = () => {
   const navigate = useNavigate();
@@ -16,7 +16,15 @@ const OTP = () => {
 
   const handleVerifyOtp = async()=> {
     const apiData = await verifyOtp(userEmail,otp);
+    console.log(apiData)
+
     if(apiData?.statusCode===200){
+      dispatch(setPhone(apiData?.data?.countryCode + apiData?.data?.phone));
+      dispatch(setCity(apiData?.data?.city));
+      dispatch(setState(apiData?.data?.state));
+      dispatch(setPincode(apiData?.data?.zipCode));
+      dispatch(setReferralBy(apiData?.data?.referredBy));
+      dispatch(setReferralCode(apiData?.data?.referralCode));
       dispatch(setSignup(!isUserSignUp));
       toast.success("OTP verified successfully")
        navigate("/wallet");

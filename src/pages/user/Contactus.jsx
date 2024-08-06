@@ -1,15 +1,30 @@
 import { useState } from 'react';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { postContactForm } from '../../utils/Axios';
+import { useSelector } from 'react-redux';
 
 const ContactUs = () => {
+  const walletAddress = useSelector((state) => state.wallet.address);
+  const token = useSelector((state)=>state.wallet.token);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
+    countryCode: '',
     subject: '',
     message: ''
   });
 
-  const handleChange = (e) => {
+  const handleChange = (value, country) => {
+    setFormData({
+      ...formData,
+      phone: value,
+      countryCode: country?.dialCode || ''
+    });
+  };
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -17,11 +32,11 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form data:', formData);
+  await postContactForm(walletAddress, formData, token)
   };
+
 
   return (
     <section className="py-24 bgimage bg-black text-white flex items-center justify-center min-h-screen">
@@ -35,7 +50,7 @@ const ContactUs = () => {
                   type="text"
                   name="name"
                   value={formData.name}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   className="w-full h-14 shadow-sm text-black placeholder-gray-400 text-lg font-normal leading-7 rounded-lg border border-gray-300 bg-gray-200 focus:outline-none focus:border-yellow-500 py-2 px-4"
                   placeholder="Name"
                 />
@@ -43,25 +58,30 @@ const ContactUs = () => {
                   type="email"
                   name="email"
                   value={formData.email}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   className="w-full h-14 shadow-sm text-black placeholder-gray-400 text-lg font-normal leading-7 rounded-lg border border-gray-300 bg-gray-200 focus:outline-none focus:border-yellow-500 py-2 px-4"
                   placeholder="Email"
                 />
               </div>
-              <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 w-full">
-                <input
-                  type="tel"
-                  name="phone"
+              <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 w-full contactus">
+                <PhoneInput
+                  country={"us"}
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full h-14 shadow-sm text-black placeholder-gray-400 text-lg font-normal leading-7 rounded-lg border border-gray-300 bg-gray-200 focus:outline-none focus:border-yellow-500 py-2 px-4"
-                  placeholder="Phone"
+                  inputStyle={{
+                    backgroundColor: '#e5e7eb',
+                    color: 'black',
+                    border: '1px solid #ccc',
+                    borderRadius: '5px',
+                    width: '100%',
+                    height:"55px"
+                  }}
                 />
                 <input
                   type="text"
                   name="subject"
                   value={formData.subject}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   className="w-full h-14 shadow-sm text-black placeholder-gray-400 text-lg font-normal leading-7 rounded-lg border border-gray-300 bg-gray-200 focus:outline-none focus:border-yellow-500 py-2 px-4"
                   placeholder="Subject"
                 />
@@ -69,7 +89,7 @@ const ContactUs = () => {
               <textarea
                 name="message"
                 value={formData.message}
-                onChange={handleChange}
+                onChange={handleInputChange}
                 className="w-full h-48 shadow-sm resize-none text-black placeholder-gray-400 text-lg font-normal leading-7 rounded-lg border border-gray-300 bg-gray-200 focus:outline-none focus:border-yellow-500 px-4 py-4"
                 placeholder="Message"
               />

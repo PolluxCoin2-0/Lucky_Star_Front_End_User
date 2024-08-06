@@ -48,18 +48,20 @@ export const connectWallet = async (walletAddress) => {
 
 // BET >> PLACE BID
 export const placeBid = async (placeBidData, walletAddress, token) => {
-
   try {
-    const res = await axios.post(BASE_URL + "/placeBidMethod", {
-      walletAddress: walletAddress,
-      amount: placeBidData?.minimumBid,
-      number: placeBidData?.bidNo,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const res = await axios.post(
+      BASE_URL + "/placeBidMethod",
+      {
+        walletAddress: walletAddress,
+        amount: placeBidData?.minimumBid,
+        number: placeBidData?.bidNo,
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return res?.data;
   } catch (error) {
     console.log(error);
@@ -137,31 +139,80 @@ export const getApproval = async (walletAddress, amount) => {
 };
 
 // GET TOTAL WINNING COUNT
-export const getWinningCount = async()=>{
+export const getWinningCount = async () => {
   try {
     const res = await axios.get(BASE_URL + "/getWinnerCountMethod");
     return res?.data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 // GET WINNERS BY INDEX
-export const getWinnersByIndex = async(index)=>{
+export const getWinnersByIndex = async (index) => {
   try {
-    const res = await axios.get(BASE_URL + `getWinners/${index}`)
+    const res = await axios.get(BASE_URL + `getWinners/${index}`);
     return res?.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
 // GET CURRENY BIDDING LIST
-export const getBiddingList = async()=>{
+export const getBiddingList = async () => {
   try {
     const res = await axios.get(BASE_URL + "/getCurrentBidding");
     return res?.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
+
+// CONTACT US FORM
+export const postContactForm = async (walletAddress, formData, token) => {
+  try {
+    const res = await axios.post(BASE_URL + "/createSupportTicket",{
+      "walletAddress": walletAddress,
+      "email": formData.email,
+      "countryCode": formData.countryCode,
+      "phone": formData.phone,
+      "subject": formData.subject,
+      "message": formData.message
+    },{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// ADD MONGODB IN PLACEBID
+export const postDataToMongoDB = async (
+  walletAddress,
+  placeBidData,
+  digit,
+  token
+) => {
+  try {
+    const res = await axios.post(
+      BASE_URL + "/placeBid",
+      {
+        walletAddress: walletAddress,
+        bidAmount: placeBidData?.minimumBid,
+        bidNumber: placeBidData?.bidNo,
+        bidDigit: digit,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

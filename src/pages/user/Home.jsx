@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import HeroImg from "../../assets/HomeHero.png";
 import { SensexValue, UserTable } from "../../components";
-import { getApproval, getBiddingList, getWinnersByIndex, getWinningCount, placeBid, sensexChartData } from "../../utils/Axios";
+import { getApproval, getBiddingList, getWinnersByIndex, getWinningCount, placeBid, postDataToMongoDB, sensexChartData } from "../../utils/Axios";
 import { FormatNumberWithCommas } from "../../utils/FormatNumberWithCommas";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -158,6 +158,10 @@ const Home = () => {
       await window.pox.broadcast(JSON.parse(signedTransaction1[1]))
     );
     const apiData = await placeBid(placeBidData, walletAddress, token);
+
+    if(apiData?.data){
+      await postDataToMongoDB(walletAddress, placeBidData, digit, token)
+    }
 
     const signedTransaction2 = await window.pox.signdata(
       apiData?.data?.transaction
