@@ -585,7 +585,7 @@ const Home = () => {
           <div className="w-full bg-white  rounded-lg overflow-hidden mt-5">
             {/* Table Header */}
             <div className="w-full flex flex-row items-center justify-between text-black py-3 bg-gray-200">
-              <p className="w-full sm:w-[25%] pl-2 font-semibold text-center sm:text-left whitespace-nowrap">
+              <p className="w-full sm:w-[35%] pl-4 font-semibold text-center sm:text-left whitespace-nowrap">
                 User Address
               </p>
               <p className="w-full sm:w-[25%] text-center font-semibold whitespace-nowrap">
@@ -594,7 +594,7 @@ const Home = () => {
               <p className="w-full sm:w-[25%] text-center font-semibold whitespace-nowrap">
                 Bidding No.
               </p>
-              <p className="w-full sm:w-[25%] text-center font-semibold">
+              <p className="w-full sm:w-[15%] text-center font-semibold">
                 Digit
               </p>
             </div>
