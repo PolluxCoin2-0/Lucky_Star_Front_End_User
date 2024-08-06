@@ -141,9 +141,9 @@ const Home = () => {
       return;
     }
 
-    if (!buttonDisabled) {
-      return ;
-    }
+    // if (!buttonDisabled) {
+    //   return ;
+    // }
 
     const transaction = await getApproval(
       walletAddress,
@@ -404,7 +404,7 @@ const Home = () => {
                         ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
                         : "bg-gray-300 text-gray-500 cursor-not-allowed "
                     }`}
-                disabled={buttonDisabled}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(1)}
               >
                 Bet
