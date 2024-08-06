@@ -8,6 +8,8 @@ import Balance from "./user/Balance";
 import UserData from "./user/UserData";
 import BiddingPage from "./admin/BiddingPage";
 import Dashboard from "./admin/Dashboard";
+import Contactus from "./user/Contactus";
+
 export {
     Signup,
     OTP,
@@ -19,4 +21,5 @@ export {
     UserData,
     BiddingPage,
     Dashboard,
+    Contactus,
 }
