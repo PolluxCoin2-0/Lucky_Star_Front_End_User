@@ -612,12 +612,12 @@ const Home = () => {
                     index % 2 !== 0 ? "bg-gray-100" : "bg-white"
                   }`}
                 >
-                  <p className="w-full sm:w-[25%] pl-8 text-center sm:text-left truncate">
+                  <p className="w-full sm:w-[35%] pl-4 text-center sm:text-left truncate">
                     {item.walletAddress && item.walletAddress}
                   </p>
                   <p className="w-full sm:w-[25%] text-center">{item.bidAmount && item.bidAmount}</p>
                   <p className="w-full sm:w-[25%] text-center">{item.bidNumber && item.bidNumber}</p>
-                  <p className="w-full sm:w-[25%] text-center">{item.bidDigit && item.bidDigit}</p>
+                  <p className="w-full sm:w-[15%] text-center">{item.bidDigit && item.bidDigit}</p>
                 </div>
               ))}
             </div>
