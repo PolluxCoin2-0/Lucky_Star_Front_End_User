@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const walletSlice = createSlice({
   name: "wallet",
   initialState: {
-    address: "wegtryuwtbcvjg78364578cbsjhdgfhgs",
+    address: "",
     Network: "",
     login: false,
     signup: false,
