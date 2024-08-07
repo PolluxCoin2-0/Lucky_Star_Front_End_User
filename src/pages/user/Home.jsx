@@ -343,13 +343,13 @@ const Home = () => {
       Time: 9AM to 11AM
     </p>
     <p
-      className={`${
-        buttonDisabled
-          ? "bg-green-50 text-green-800"
-          : "text-red-600 bg-red-50"
-      } rounded-md py-1 px-4 text-2xl font-bold live-indicator w-full md:w-auto text-center`}
+        // ${buttonDisabled? "bg-green-50 text-green-800" : "text-red-600 bg-red-50" } 
+      className={`
+      bg-green-50 text-green-800 rounded-md py-1 px-4 text-2xl font-bold live-indicator w-full md:w-auto text-center`}
     >
-      {buttonDisabled ? "LIVE" : "CLOSED"}
+      {/* {buttonDisabled ? "
+      " : "CLOSED"} */}
+      LIVE
     </p>
   </div>
 </div>
@@ -414,12 +414,9 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                    ${
-                      buttonDisabled
-                        ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed "
-                    }`}
+                // ${buttonDisabled ? "": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
+                    `}
                 // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(1)}
               >
@@ -455,12 +452,9 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                    ${
-                      buttonDisabled
-                        ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed "
-                    }`}
+                // ${ buttonDisabled? "": "bg-gray-300 text-gray-500 cursor-not-allowed " }
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
+                    `}
                 // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(2)}
               >
@@ -496,12 +490,9 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                    ${
-                      buttonDisabled
-                        ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed "
-                    }`}
+                // ${buttonDisabled? "": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
+                    `}
                 // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(3)}
               >
@@ -537,12 +528,9 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                    ${
-                      buttonDisabled
-                        ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed "
-                    }`}
+                // ${buttonDisabled? "": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
+                    `}
                 // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(4)}
               >
@@ -578,12 +566,9 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                    ${
-                      buttonDisabled
-                        ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed "
-                    }`}
+                // ${buttonDisabled? "": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
+                    `}
                 // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(5)}
               >
