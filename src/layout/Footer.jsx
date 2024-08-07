@@ -8,7 +8,7 @@ const Footer = () => {
           <div className="w-full md:w-1/2">
             <div className="mb-6 md:mb-0">
               <a href="/" className="flex items-center">
-                <img src={Logo} className="h-10" alt="LuckyStar Logo" />
+                <img src={Logo} className="h-auto" alt="LuckyStar Logo" />
               </a>
             </div>
             <div>
