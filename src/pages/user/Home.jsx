@@ -143,9 +143,9 @@ const Home = () => {
       return;
     }
 
-    if (!buttonDisabled) {
-      return ;
-    }
+    // if (!buttonDisabled) {
+    //   return ;
+    // }
 
     const transaction = await getApproval(
       walletAddress,
@@ -197,7 +197,6 @@ const Home = () => {
 
   useEffect(() => {
     const dataFromChartApi = async () => {
-
       for (let i = 1; i <= 5; i++) {
         const response = await getMultiplier(i);
         const newValue = Polluxweb.toDecimal(response?.data?.hex);
@@ -343,11 +342,13 @@ const Home = () => {
       Time: 9AM to 11AM
     </p>
     <p
+        // ${buttonDisabled? "bg-green-50 text-green-800" : "text-red-600 bg-red-50" } 
       className={`
-        ${buttonDisabled? "bg-green-50 text-green-800" : "text-red-600 bg-red-50" } 
         bg-green-50 text-green-800 rounded-md py-1 px-4 text-2xl font-bold live-indicator w-full md:w-auto text-center`}
     >
-      {buttonDisabled ? " LIVE" : "CLOSED"}
+      {/* {buttonDisabled ? "
+      " : "CLOSED"} */}
+      LIVE
     </p>
   </div>
 </div>
@@ -412,10 +413,10 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                  ${buttonDisabled ? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                // ${buttonDisabled ? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
                     `}
-                disabled={buttonDisabled}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(1)}
               >
                 Bet
@@ -450,10 +451,10 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                  ${ buttonDisabled? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed " }
+                // ${ buttonDisabled? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed " }
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
                     `}
-                disabled={buttonDisabled}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(2)}
               >
                 Bet
@@ -488,10 +489,10 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                  ${buttonDisabled? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                // ${buttonDisabled? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
                     `}
-                disabled={buttonDisabled}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(3)}
               >
                 Bet
@@ -526,10 +527,10 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                  ${buttonDisabled? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                // ${buttonDisabled? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
                     `}
-                disabled={buttonDisabled}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(4)}
               >
                 Bet
@@ -564,10 +565,10 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                  ${buttonDisabled? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                // ${buttonDisabled? "": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
                     `}
-                disabled={buttonDisabled}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(5)}
               >
                 Bet
@@ -631,7 +632,7 @@ const Home = () => {
             type="button"
             className="bg-gradient-to-r from-[#FF4B00] to-[#CFC800] text-xl py-3 px-4 w-full text-center font-bold rounded-lg text-white focus:outline-none"
           >
-            Yesterday Winner
+            Winners
           </button>
           <UserTable />
         </div>
