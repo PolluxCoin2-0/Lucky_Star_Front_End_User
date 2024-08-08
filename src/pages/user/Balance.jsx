@@ -1,22 +1,24 @@
 import { useSelector } from "react-redux";
 import Search from "../../components/Search";
 import UserTable from "../../components/UserTable";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getWinningBalance } from "../../utils/Axios";
 
 const Balance = () => {
   const balanceUSDX = useSelector((state)=>state.wallet.balanceUSDX);
   const walletAddress = useSelector((state)=>state.wallet.address)
   const token = useSelector((state)=>state.wallet.token);
+  const [winningBalance, setWinningBalance] = useState(0);
 
   useEffect(()=>{
     const fetchData = async()=>{
       const apiData = await getWinningBalance(walletAddress, token);
       console.log(apiData);
+      setWinningBalance()
     }
-
     fetchData();
   },[])
+  
   return (
     <div className="bgimage px-4 md:px-4 lg:px-4 xl:px-4 2xl:px-24 bg-black min-h-screen text-white pb-12">
       <Search />
@@ -44,7 +46,7 @@ const Balance = () => {
             className="bg-[#F3F3F3] border-2 border-[#DBDBDB] focus:outline-gray-400 rounded-md py-2 px-4 w-64 font-semibold text-gray-500"
             
           >
-                         {Number(balanceUSDX).toFixed(6)}
+                         {Number(winningBalance).toFixed(6)}
             </span>
         </div>
       </div>
