@@ -41,7 +41,11 @@ const handleLogin = async () => {
        dispatch(setToken(apiData?.data?.token));
        dispatch(setBalanceUSDX(dataArray?.USDX))
        dispatch(setWalletAddress(dataArray?.wallet_address))
+       if(signupStatus){
+       dispatch(setSignup(signupStatus));
+       }else{
        dispatch(setSignup(!signupStatus));
+       }
         navigate("/")
       }else{
         toast.error("Wallet address is not registered.")

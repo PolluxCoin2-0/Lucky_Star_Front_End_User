@@ -114,7 +114,15 @@ const Home = () => {
       }
     };
     fetchBiddingList();
+     // Run fetchBiddingList every 10 seconds
+  const intervalId = setInterval(() => {
+    fetchBiddingList();
+  }, 10000);
+
+  // Clear the interval when the component is unmounted
+  return () => clearInterval(intervalId);
   }, []);
+  console.log(winnerList)
 
   const handleChange = (event, keyNumber) => {
     const { name, value } = event.target;
@@ -173,6 +181,13 @@ const Home = () => {
       await window.pox.broadcast(JSON.parse(signedTransaction2[1]))
     );
 
+    if(apiData?.statusCode===200){
+      toast.success("Bid placed successfully!");
+      setPlaceBidData({
+        minimumBid: "",
+        bidNo: "",
+      });
+    }
   };
 
   function getUnixTimestamps() {
@@ -604,7 +619,7 @@ const Home = () => {
             </div>
 
             {/* Table Data */}
-            <div className="w-full text-black">
+            <div className="w-full text-black max-h-[357px] overflow-y-auto border-2 border-white">
               {biddingList && biddingList.map((item, index) => (
                 <div
                   key={index}
@@ -625,7 +640,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Yesterday Winner */}
+      {/* Winner */}
       <div className=" py-8">
         <div className="w-full">
           <button
@@ -634,7 +649,7 @@ const Home = () => {
           >
             Winners
           </button>
-          <UserTable />
+          <UserTable data={winnerList} />
         </div>
       </div>
     </div>

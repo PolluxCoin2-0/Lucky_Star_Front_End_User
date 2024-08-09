@@ -8,7 +8,7 @@ const data = Array(10).fill({
   value3: "10 USDX",
 });
 
-const UserTable = () => {
+const UserTable = ({data}) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page) => {

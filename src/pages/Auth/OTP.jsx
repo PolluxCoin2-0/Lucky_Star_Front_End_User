@@ -16,7 +16,6 @@ const OTP = () => {
 
   const handleVerifyOtp = async()=> {
     const apiData = await verifyOtp(userEmail,otp);
-    console.log(apiData)
 
     if(apiData?.statusCode===200){
       dispatch(setPhone(apiData?.data?.countryCode + apiData?.data?.phone));
