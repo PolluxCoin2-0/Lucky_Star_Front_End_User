@@ -3,6 +3,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { postContactForm } from '../../utils/Axios';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const ContactUs = () => {
   const walletAddress = useSelector((state) => state.wallet.address);
@@ -35,6 +36,13 @@ const ContactUs = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
   await postContactForm(walletAddress, formData, token)
+  toast.success("Query sent successfully");
+  setFormData?.name("");
+  setFormData?.email("");
+  setFormData?.phone("");
+  setFormData?.countryCode("");
+  setFormData?.subject("");
+  setFormData?.message("");
   };
 
 
