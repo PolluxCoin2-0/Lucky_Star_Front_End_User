@@ -596,7 +596,7 @@ const Home = () => {
         <div className="min-w-[800px] md:min-w-full lg:min-w-full xl:min-w-0 2xl:min-w-0 md:w-full lg:w-2/5 xl:w-2/5 2xl:w-2/5">
           <button
             type="button"
-            className="bg-gradient-to-r from-[#FF4B00] to-[#CFC800] text-xl py-3 px-4 w-full text-center font-bold rounded-lg text-white focus:outline-none"
+            className="w-96 md:w-full lg:w-full xl:w-full 2xl:w-full bg-gradient-to-r from-[#FF4B00] to-[#CFC800] text-xl py-3 px-4 text-center font-bold rounded-lg text-white focus:outline-none"
           >
             Current Bidding
           </button>
@@ -623,7 +623,7 @@ const Home = () => {
               {biddingList && biddingList.map((item, index) => (
                 <div
                   key={index}
-                  className={`w-full flex flex-col sm:flex-row items-center justify-between py-[13.5px] ${
+                  className={`w-full flex flex-row items-center justify-between py-[13.5px] ${
                     index % 2 !== 0 ? "bg-gray-100" : "bg-white"
                   }`}
                 >
