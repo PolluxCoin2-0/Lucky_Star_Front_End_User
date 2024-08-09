@@ -37,12 +37,15 @@ const ContactUs = () => {
     e.preventDefault();
   await postContactForm(walletAddress, formData, token)
   toast.success("Query sent successfully");
-  setFormData?.name("");
-  setFormData?.email("");
-  setFormData?.phone("");
-  setFormData?.countryCode("");
-  setFormData?.subject("");
-  setFormData?.message("");
+    // Resetting form data by setting it back to the initial state
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      countryCode: '',
+      subject: '',
+      message: ''
+    });
   };
 
 
