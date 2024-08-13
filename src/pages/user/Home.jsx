@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import HeroImg from "../../assets/HomeHero.png";
 import { SensexValue, UserTable } from "../../components";
-import { getApproval, getBiddingList, getWinnersByIndex, getWinningCount, placeBid, sensexChartData } from "../../utils/Axios";
+import { getApproval, getBiddingList, getMultiplier, getWinnersByIndex, getWinningCount, placeBid, postDataToMongoDB, sensexChartData } from "../../utils/Axios";
 import { FormatNumberWithCommas } from "../../utils/FormatNumberWithCommas";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Polluxweb from "polluxweb";
 
 const Home = () => {
   const walletAddress = useSelector((state) => state.wallet.address);
@@ -19,6 +20,7 @@ const Home = () => {
   });
   const [winnerList, setWinnerList] = useState([]);
   const [biddingList, setBiddingList] = useState([]);
+  const [mutliplierList, setMutliplierList] = useState([]);
 
   function formatDateTime() {
     const months = [
@@ -112,7 +114,15 @@ const Home = () => {
       }
     };
     fetchBiddingList();
+     // Run fetchBiddingList every 10 seconds
+  const intervalId = setInterval(() => {
+    fetchBiddingList();
+  }, 10000);
+
+  // Clear the interval when the component is unmounted
+  return () => clearInterval(intervalId);
   }, []);
+  console.log(winnerList)
 
   const handleChange = (event, keyNumber) => {
     const { name, value } = event.target;
@@ -141,9 +151,9 @@ const Home = () => {
       return;
     }
 
-    if (!buttonDisabled) {
-      return ;
-    }
+    // if (!buttonDisabled) {
+    //   return ;
+    // }
 
     const transaction = await getApproval(
       walletAddress,
@@ -159,6 +169,10 @@ const Home = () => {
     );
     const apiData = await placeBid(placeBidData, walletAddress, token);
 
+    if(apiData?.data){
+      await postDataToMongoDB(walletAddress, placeBidData, digit, token)
+    }
+
     const signedTransaction2 = await window.pox.signdata(
       apiData?.data?.transaction
     );
@@ -167,6 +181,13 @@ const Home = () => {
       await window.pox.broadcast(JSON.parse(signedTransaction2[1]))
     );
 
+    if(apiData?.statusCode===200){
+      toast.success("Bid placed successfully!");
+      setPlaceBidData({
+        minimumBid: "",
+        bidNo: "",
+      });
+    }
   };
 
   function getUnixTimestamps() {
@@ -191,6 +212,19 @@ const Home = () => {
 
   useEffect(() => {
     const dataFromChartApi = async () => {
+      for (let i = 1; i <= 5; i++) {
+        const response = await getMultiplier(i);
+        const newValue = Polluxweb.toDecimal(response?.data?.hex);
+      
+        setMutliplierList((prevState) => {
+          if (!prevState.includes(newValue)) {
+            return [...prevState, newValue];
+          }
+          return prevState;
+        });
+      }
+      
+
       const dateData = getUnixTimestamps();
       const apiResponse = await sensexChartData(
         dateData?.today,
@@ -323,13 +357,13 @@ const Home = () => {
       Time: 9AM to 11AM
     </p>
     <p
-      className={`${
-        buttonDisabled
-          ? "bg-green-50 text-green-800"
-          : "text-red-600 bg-red-50"
-      } rounded-md py-1 px-4 text-2xl font-bold live-indicator w-full md:w-auto text-center`}
+        // ${buttonDisabled? "bg-green-50 text-green-800" : "text-red-600 bg-red-50" } 
+      className={`
+        bg-green-50 text-green-800 rounded-md py-1 px-4 text-2xl font-bold live-indicator w-full md:w-auto text-center`}
     >
-      {buttonDisabled ? "LIVE" : "CLOSED"}
+      {/* {buttonDisabled ? "
+      " : "CLOSED"} */}
+      LIVE
     </p>
   </div>
 </div>
@@ -372,7 +406,7 @@ const Home = () => {
                   1
                 </p>
                 <p className="w-full sm:w-[25%] bg-[#f1f1f1] border-[2px] border-[#e4e3e3] rounded text-gray-400 font-semibold text-center py-1">
-                  2x
+                  {mutliplierList[0]}x
                 </p>
                 <p className="w-full sm:w-[25%] text-center">One</p>
                 <input
@@ -394,13 +428,10 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                    ${
-                      buttonDisabled
-                        ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed "
-                    }`}
-                disabled={buttonDisabled}
+                // ${buttonDisabled ? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
+                    `}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(1)}
               >
                 Bet
@@ -413,7 +444,7 @@ const Home = () => {
                   2
                 </p>
                 <p className="w-full sm:w-[25%] bg-[#f1f1f1] border-[2px] border-[#e4e3e3] rounded text-gray-400 font-semibold text-center py-1">
-                  5x
+                {mutliplierList[1]}x
                 </p>
                 <p className="w-full sm:w-[25%] text-center">Two</p>
                 <input
@@ -435,13 +466,10 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                    ${
-                      buttonDisabled
-                        ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed "
-                    }`}
-                disabled={buttonDisabled}
+                // ${ buttonDisabled? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed " }
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
+                    `}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(2)}
               >
                 Bet
@@ -454,7 +482,7 @@ const Home = () => {
                   3
                 </p>
                 <p className="w-full sm:w-[25%] bg-[#f1f1f1] border-[2px] border-[#e4e3e3] rounded text-gray-400 font-semibold text-center py-1">
-                  10x
+                {mutliplierList[2]}x
                 </p>
                 <p className="w-full sm:w-[25%] text-center">Three</p>
                 <input
@@ -476,13 +504,10 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                    ${
-                      buttonDisabled
-                        ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed "
-                    }`}
-                disabled={buttonDisabled}
+                // ${buttonDisabled? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
+                    `}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(3)}
               >
                 Bet
@@ -495,7 +520,7 @@ const Home = () => {
                   4
                 </p>
                 <p className="w-full sm:w-[25%] bg-[#f1f1f1] border-[2px] border-[#e4e3e3] rounded text-gray-400 font-semibold text-center py-1">
-                  20x
+                {mutliplierList[3]}x
                 </p>
                 <p className="w-full sm:w-[25%] text-center">Four</p>
                 <input
@@ -517,13 +542,10 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                    ${
-                      buttonDisabled
-                        ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed "
-                    }`}
-                disabled={buttonDisabled}
+                // ${buttonDisabled? "bg-[#F3FFF4] text-[#107407] cursor-pointer": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
+                    `}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(4)}
               >
                 Bet
@@ -536,7 +558,7 @@ const Home = () => {
                   5
                 </p>
                 <p className="w-full sm:w-[25%] bg-[#f1f1f1] border-[2px] border-[#e4e3e3] rounded text-gray-400 font-semibold text-center py-1">
-                  50x
+                {mutliplierList[4]}x
                 </p>
                 <p className="w-full sm:w-[25%] text-center">Five</p>
                 <input
@@ -558,13 +580,10 @@ const Home = () => {
               </div>
               <button
                 type="button"
-                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none 
-                    ${
-                      buttonDisabled
-                        ? "bg-[#F3FFF4] text-[#107407] cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed "
-                    }`}
-                disabled={buttonDisabled}
+                // ${buttonDisabled? "": "bg-gray-300 text-gray-500 cursor-not-allowed "}
+                className={`font-semibold text-xl py-3 px-2 w-[20%] text-center rounded-lg focus:outline-none bg-[#F3FFF4] text-[#107407] cursor-pointer
+                    `}
+                // disabled={buttonDisabled}
                 onClick={() => handlePlaceBid(5)}
               >
                 Bet
@@ -577,7 +596,7 @@ const Home = () => {
         <div className="min-w-[800px] md:min-w-full lg:min-w-full xl:min-w-0 2xl:min-w-0 md:w-full lg:w-2/5 xl:w-2/5 2xl:w-2/5">
           <button
             type="button"
-            className="bg-gradient-to-r from-[#FF4B00] to-[#CFC800] text-xl py-3 px-4 w-full text-center font-bold rounded-lg text-white focus:outline-none"
+            className="w-96 md:w-full lg:w-full xl:w-full 2xl:w-full bg-gradient-to-r from-[#FF4B00] to-[#CFC800] text-xl py-3 px-4 text-center font-bold rounded-lg text-white focus:outline-none"
           >
             Current Bidding
           </button>
@@ -600,20 +619,20 @@ const Home = () => {
             </div>
 
             {/* Table Data */}
-            <div className="w-full text-black">
+            <div className="w-full text-black max-h-[357px] overflow-y-auto border-2 border-white">
               {biddingList && biddingList.map((item, index) => (
                 <div
                   key={index}
-                  className={`w-full flex flex-col sm:flex-row items-center justify-between py-[13.5px] ${
+                  className={`w-full flex flex-row items-center justify-between py-[13.5px] ${
                     index % 2 !== 0 ? "bg-gray-100" : "bg-white"
                   }`}
                 >
-                  <p className="w-full sm:w-[25%] pl-8 text-center sm:text-left truncate">
+                  <p className="w-full sm:w-[35%] pl-4 text-center sm:text-left truncate">
                     {item.walletAddress && item.walletAddress}
                   </p>
                   <p className="w-full sm:w-[25%] text-center">{item.bidAmount && item.bidAmount}</p>
                   <p className="w-full sm:w-[25%] text-center">{item.bidNumber && item.bidNumber}</p>
-                  <p className="w-full sm:w-[25%] text-center">{item.bidDigit && item.bidDigit}</p>
+                  <p className="w-full sm:w-[15%] text-center">{item.bidDigit && item.bidDigit}</p>
                 </div>
               ))}
             </div>
@@ -621,16 +640,16 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Yesterday Winner */}
+      {/* Winner */}
       <div className=" py-8">
         <div className="w-full">
           <button
             type="button"
             className="bg-gradient-to-r from-[#FF4B00] to-[#CFC800] text-xl py-3 px-4 w-full text-center font-bold rounded-lg text-white focus:outline-none"
           >
-            Yesterday Winner
+            Winners
           </button>
-          <UserTable />
+          <UserTable data={winnerList} />
         </div>
       </div>
     </div>

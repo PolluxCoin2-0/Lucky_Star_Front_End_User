@@ -143,7 +143,7 @@ const Signup = () => {
           {/* Pincode Input */}
           <div className="relative w-full max-w-xs">
             <input
-              type="text"
+              type="number"
               id="zipCode"
               value={formData.zipCode}
               onChange={handleChange}

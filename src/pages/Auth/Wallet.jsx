@@ -23,11 +23,7 @@ async function getPolinkweb() {
         try {
           const detailsData = JSON.stringify(await window.pox.getDetails());
           const parsedDetailsObject = JSON.parse(detailsData);
-          // if()
-          dispatch(setBalanceUSDX(parsedDetailsObject[1]?.data?.USDX))
-          dispatch(setWalletAddress(parsedDetailsObject[1]?.data?.wallet_address))
-          dispatch(setSignup(!signupStatus));
-          resolve(parsedDetailsObject[1]?.data?.wallet_address);
+          resolve(parsedDetailsObject[1]?.data);
         } catch (error) {
           reject(error);
         }
@@ -38,11 +34,18 @@ async function getPolinkweb() {
 
 const handleLogin = async () => {
   try {
-    const walletAddress = await getPolinkweb();
-    if (walletAddress) {
-      const apiData = await connectWallet(walletAddress);
+    const dataArray = await getPolinkweb();
+    if (dataArray?.wallet_address) {
+      const apiData = await connectWallet(dataArray?.wallet_address);
       if(apiData?.statusCode==200){
        dispatch(setToken(apiData?.data?.token));
+       dispatch(setBalanceUSDX(dataArray?.USDX))
+       dispatch(setWalletAddress(dataArray?.wallet_address))
+       if(signupStatus){
+       dispatch(setSignup(signupStatus));
+       }else{
+       dispatch(setSignup(!signupStatus));
+       }
         navigate("/")
       }else{
         toast.error("Wallet address is not registered.")
